@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+function genData(len, offset) {
+    var lngRange = [-10.781327, 131.48];
+    var latRange = [18.252847, 52.33];
+
+    var arr = new Float32Array(len * 2);
+    var off = 0;
+
+    for (var i = 0; i < len; i++) {
+        var x =Math.random() * 1;
+        var y = 2.47*x/(1+1.47*x)
+        arr[off++] = x;
+        arr[off++] = y;
+    }
+    return arr;
+}
+function genData1(len, offset) {
+    var lngRange = [-10.781327, 131.48];
+    var latRange = [18.252847, 52.33];
+
+    var arr = new Float32Array(len * 2);
+    var off = 0;
+
+    for (var i = 0; i < len; i++) {
+        var x =Math.random() * 1;
+        var y =x
+        arr[off++] = x;
+        arr[off++] = y;
+    }
+    return arr;
+}
+function genData2(len, offset) {
+    var lngRange = [-10.781327, 131.48];
+    var latRange = [18.252847, 52.33];
+
+    var arr = new Float32Array(len * 2);
+    var off = 0;
+
+    for (var i = 0; i < len; i++) {
+        var x =0.4;
+        var y =Math.random() * 1
+        arr[off++] = x;
+        arr[off++] = y;
+    }
+    return arr;
+}
+function genData3(len, offset) {
+    var lngRange = [-10.781327, 131.48];
+    var latRange = [18.252847, 52.33];
+
+    var arr = new Float32Array(len * 2);
+    var off = 0;
+     x=0.94;
+    y=0.94;
+    arr[off++] = x;
+    arr[off++] = y;
+    x=0.94/(2.47-1.47*0.94)
+    y=0.94;
+    arr[off++] = x;
+    arr[off++] = y;
+    var y1
+    =0.75*x+0.235;
+    arr[off++] = x;
+    arr[off++] = y1;
+    
+    do {
+      y=0.75*x+0.235;  
+      x=y/(2.47-1.47*y)
+      arr[off++] = x;
+      arr[off++] = y;
+     if(x>0.397)
+     { y1=0.75*x+0.235;
+       arr[off++] = x;
+       arr[off++] = y1;
+     }
+     else
+     {
+      y1=1.3472*x-0.003;
+       arr[off++] = x;
+       arr[off++] = y1;
+         
+     }
+    }while(x>0.397)
+   for (i=0;i<len;i++)
+   {
+      y=1.3472*x-0.003;  
+      x=y/(2.47-1.47*y)
+      arr[off++] = x;
+      arr[off++] = y; 
+     
+     y1=1.3472*x-0.003;
+       arr[off++] = x;
+       arr[off++] = y1;
+     
+       
+   }
+    return arr;
+}    
+function genData4(len, offset) {
+    var lngRange = [-10.781327, 131.48];
+    var latRange = [18.252847, 52.33];
+
+    var arr = new Float32Array(len * 2);
+    var off = 0;
+
+    for (var i = 0; i < len; i++) {
+        var x =Math.random() *0.397;
+        var y =1.3472*x-0.003
+        arr[off++] = x;
+        arr[off++] = y;
+    }
+    return arr;
+}    
+    
+    
+var data1 = genData(3000);
+var data2 = genData1(3000, 10);
+var data3=[[0.94,0.94],[0,0.235]]
+var data4=genData2(3000, 10);
+var data5=genData4(3000)
+var data6=genData3(24)
+option = {
+    title: {
+        text: echarts.format.addCommas(data1.length / 2 + data2.length / 2) + ' Points'
+    },
+    tooltip: { 
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross'
+        }
+},
+    
+    legend: {
+        orient: 'vertical',
+        right:3,
+        top:100
+    },
+    xAxis: [{
+    }],
+    yAxis: [{
+    }],
+    dataZoom: [{
+        type: 'inside'
+    }, {
+        type: 'slider'
+    }],
+    animation: false,
+    series : [{
+        name: 'X-Y',
+        type: 'scatter',
+        data: data1,
+        dimensions: ['x', 'y'],
+        symbolSize: 2,
+        itemStyle: {
+            opacity: 0.4
+        },
+        large: true
+    }, {
+        name: '对角线',
+        type: 'scatter',
+        data: data2,
+        dimensions: ['x', 'y'],
+        symbolSize: 1,
+        itemStyle: {
+            opacity: 0.4
+        },
+        large: true
+    },{
+        name: '精馏段操作线',
+        type: 'line',
+        data: data3,
+        dimensions: ['x', 'y'],
+        symbolSize: 2,
+        itemStyle: {
+            opacity: 0.4
+        },
+        large: true
+    },{
+        name: '提馏段操作线',
+        type: 'scatter',
+        data: data5,
+        dimensions: ['x', 'y'],
+        symbolSize: 1,
+        itemStyle: {
+            opacity: 0.4
+        },
+        large: true
+    },{
+        name: 'D',
+        type: 'line',
+        data: data6,
+        dimensions: ['x', 'y'],
+        symbolSize: 2,
+        itemStyle: {
+            opacity: 0.4
+        },
+        large: true
+    }
+    
+    
+    
+    ]
+};
+
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>
